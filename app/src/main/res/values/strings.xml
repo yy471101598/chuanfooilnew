@@ -1,0 +1,5 @@
+<resources>
+    <string name="app_name">川佛油气</string>
+    <string name="version">1.1</string>
+    <string name="alphabet_and_number">abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789</string>
+</resources>
