@@ -118,7 +118,7 @@ public class OilConsumptionActivity extends Activity {
                     isVipOk=true;
                     VipInfo info = (VipInfo) msg.obj;
                     if(info.IsMustSwingCard){
-                        if(PreferenceHelper.readBoolean(ac,"shoppay","isCard", false)){
+//                        if(PreferenceHelper.readBoolean(ac,"shoppay","isCard", false)){
                             if (info.MemState == 0) {
                                 oilTvVipname.setText(info.MemName);
                                 String ty="";
@@ -179,15 +179,15 @@ public class OilConsumptionActivity extends Activity {
                                 Toast.makeText(MyApplication.context, "此卡已挂失", Toast.LENGTH_LONG).show();
                                 PreferenceHelper.write(MyApplication.context, "shoppay", "viptoast", "此卡已挂失");
                             }
-                        }else{
-                            Toast.makeText(MyApplication.context, "必须刷卡消费", Toast.LENGTH_LONG).show();
-                            oilEtCardnum.setText("");
-                            oilTvVipname.setText("");
-                            oilTvCardtype.setText("");
-                            oilTvCarnum.setText("");
-                            oilTvVipjifen.setText("");
-                            oilTvVipyue.setText("");
-                        }
+//                        }else{
+//                            Toast.makeText(MyApplication.context, "必须刷卡消费", Toast.LENGTH_LONG).show();
+//                            oilEtCardnum.setText("");
+//                            oilTvVipname.setText("");
+//                            oilTvCardtype.setText("");
+//                            oilTvCarnum.setText("");
+//                            oilTvVipjifen.setText("");
+//                            oilTvVipyue.setText("");
+//                        }
                     }else {
                         if (info.MemState == 0) {
                             oilTvVipname.setText(info.MemName);
