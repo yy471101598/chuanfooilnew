@@ -26,7 +26,7 @@ import com.loopj.android.http.PersistentCookieStore;
 import com.loopj.android.http.RequestParams;
 import com.shoppay.wyoilnew.bean.FastShopZhehMoney;
 import com.shoppay.wyoilnew.bean.VipInfo;
-import com.shoppay.wyoilnew.card.ReadCardOpt;
+import com.shoppay.wyoilnew.card.ReadCardHandler;
 import com.shoppay.wyoilnew.http.InterfaceBack;
 import com.shoppay.wyoilnew.tools.ActivityStack;
 import com.shoppay.wyoilnew.tools.BluetoothUtil;
@@ -103,45 +103,45 @@ public class GasConsumptionActivity extends Activity {
     RelativeLayout gasRlJiesuan;
     private Activity ac;
     private String editString;
-    private boolean isFcard=false;
-    private boolean isMoney=false;
+    private boolean isFcard = false;
+    private boolean isMoney = false;
     private List<GasType> list;
     private GasType dengji;
-    private boolean isVipOk=false;
+    private boolean isVipOk = false;
     private Handler handler = new Handler() {
         @Override
         public void handleMessage(Message msg) {
             super.handleMessage(msg);
             switch (msg.what) {
                 case 1:
-                    isVipOk=true;
+                    isVipOk = true;
                     VipInfo info = (VipInfo) msg.obj;
-                    if(info.IsMustSwingCard){
-                        if(PreferenceHelper.readBoolean(ac,"shoppay","isCard", false)){
+                    if (info.IsMustSwingCard) {
+                        if (PreferenceHelper.readBoolean(ac, "shoppay", "isCard", false)) {
                             if (info.MemState == 0) {
                                 gasTvVipname.setText(info.MemName);
-                                String ty="";
-                                switch (info.CardType){
+                                String ty = "";
+                                switch (info.CardType) {
                                     case 0:
-                                        ty="父卡";
-                                        isFcard=true;
+                                        ty = "父卡";
+                                        isFcard = true;
                                         break;
                                     case 1:
-                                        ty="子卡";
-                                        isFcard=false;
+                                        ty = "子卡";
+                                        isFcard = false;
                                         break;
                                     case 2:
-                                        ty="个人";
-                                        isFcard=false;
+                                        ty = "个人";
+                                        isFcard = false;
                                         break;
                                 }
                                 gasTvCardtype.setText(ty);
                                 gasTvCarnum.setText(info.MemCardNumber);
                                 gasTvVipjifen.setText(info.MemPoint);
                                 gasTvVipyue.setText(info.MemMoney);
-                                switch (info.PayType){
+                                switch (info.PayType) {
                                     case 0:
-                                        isMoney=false;
+                                        isMoney = false;
 //                                        rlYue.setBackgroundColor(getResources().getColor(R.color.theme_red));
 //                                        tvYue.setTextColor(getResources().getColor(R.color.white));
 //                                        rlMoney.setBackgroundColor(getResources().getColor(R.color.white));
@@ -149,7 +149,7 @@ public class GasConsumptionActivity extends Activity {
                                         tvMoney.setText("余额");
                                         break;
                                     case 1:
-                                        isMoney=true;
+                                        isMoney = true;
 //                                        rlYue.setBackgroundColor(getResources().getColor(R.color.white));
 //                                        tvYue.setTextColor(getResources().getColor(R.color.text_30));
 //                                        rlMoney.setBackgroundColor(getResources().getColor(R.color.theme_red));
@@ -178,7 +178,7 @@ public class GasConsumptionActivity extends Activity {
                                 Toast.makeText(MyApplication.context, "此卡已挂失", Toast.LENGTH_LONG).show();
                                 PreferenceHelper.write(MyApplication.context, "shoppay", "viptoast", "此卡已挂失");
                             }
-                        }else {
+                        } else {
                             Toast.makeText(MyApplication.context, "必须刷卡消费", Toast.LENGTH_LONG).show();
                             gasEtCardnum.setText("");
                             gasTvVipname.setText("");
@@ -187,31 +187,31 @@ public class GasConsumptionActivity extends Activity {
                             gasTvVipjifen.setText("");
                             gasTvVipyue.setText("");
                         }
-                    }else {
+                    } else {
                         if (info.MemState == 0) {
                             gasTvVipname.setText(info.MemName);
-                            String ty="";
-                            switch (info.CardType){
+                            String ty = "";
+                            switch (info.CardType) {
                                 case 0:
-                                    ty="父卡";
-                                    isFcard=true;
+                                    ty = "父卡";
+                                    isFcard = true;
                                     break;
                                 case 1:
-                                    ty="子卡";
-                                    isFcard=false;
+                                    ty = "子卡";
+                                    isFcard = false;
                                     break;
                                 case 2:
-                                    ty="个人";
-                                    isFcard=false;
+                                    ty = "个人";
+                                    isFcard = false;
                                     break;
                             }
                             gasTvCardtype.setText(ty);
                             gasTvCarnum.setText(info.MemCardNumber);
                             gasTvVipjifen.setText(info.MemPoint);
                             gasTvVipyue.setText(info.MemMoney);
-                            switch (info.PayType){
+                            switch (info.PayType) {
                                 case 0:
-                                    isMoney=false;
+                                    isMoney = false;
 //                                    rlYue.setBackgroundColor(getResources().getColor(R.color.theme_red));
 //                                    tvYue.setTextColor(getResources().getColor(R.color.white));
 //                                    rlMoney.setBackgroundColor(getResources().getColor(R.color.white));
@@ -219,7 +219,7 @@ public class GasConsumptionActivity extends Activity {
                                     tvMoney.setText("余额");
                                     break;
                                 case 1:
-                                    isMoney=true;
+                                    isMoney = true;
 //                                    rlYue.setBackgroundColor(getResources().getColor(R.color.white));
 //                                    tvYue.setTextColor(getResources().getColor(R.color.text_30));
 //                                    rlMoney.setBackgroundColor(getResources().getColor(R.color.theme_red));
@@ -251,7 +251,7 @@ public class GasConsumptionActivity extends Activity {
                     }
                     break;
                 case 2:
-                    isVipOk=false;
+                    isVipOk = false;
                     gasTvVipname.setText("");
                     gasTvCardtype.setText("");
                     gasTvCarnum.setText("");
@@ -263,10 +263,10 @@ public class GasConsumptionActivity extends Activity {
                 case 3:
                     FastShopZhehMoney zh = (FastShopZhehMoney) msg.obj;
                     gasTvZhmoney.setText(StringUtil.twoNum(zh.Money));
-                    gasTvHasjf.setText(Integer.parseInt(zh.Point)+"");
-                    if(gasTvPrice.getText().toString()==null||gasTvPrice.getText().toString().equals("")){
+                    gasTvHasjf.setText(Integer.parseInt(zh.Point) + "");
+                    if (gasTvPrice.getText().toString() == null || gasTvPrice.getText().toString().equals("")) {
 
-                    }else {
+                    } else {
                         gasTvNum.setText(StringUtil.twoNum(CommonUtils.div(Double.parseDouble(gasEtXfmoney.getText().toString()), Double.parseDouble(dengji.GasPrice), 2) + ""));
                     }
                     break;
@@ -280,23 +280,24 @@ public class GasConsumptionActivity extends Activity {
         }
     };
     private String xfmoney;
-  private Dialog dialog;
+    private Dialog dialog;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_gasconsumption);
         ButterKnife.bind(this);
-        ac=this;
-        PreferenceHelper.write(ac,"shoppay","isCard", false);
+        ac = this;
+        PreferenceHelper.write(ac, "shoppay", "isCard", false);
         PreferenceHelper.write(MyApplication.context, "shoppay", "memid", "123");
         PreferenceHelper.write(MyApplication.context, "shoppay", "vipdengjiid", "123");
         PreferenceHelper.write(MyApplication.context, "shoppay", "jifenpercent", "123");
-        PreferenceHelper.write(MyApplication.context,"shoppay","viptoast","未查询到会员");
+        PreferenceHelper.write(MyApplication.context, "shoppay", "viptoast", "未查询到会员");
         dialog = DialogUtil.loadingDialog(ac, 1);
         tvTitle.setText("天然气消费");
         ActivityStack.create().addActivity(ac);
         vipDengjiList("no");
-          gasEtCardnum.setOnKeyListener(onKey);
+        gasEtCardnum.setOnKeyListener(onKey);
         gasEtXfmoney.setOnKeyListener(onKey);
         gasEtCardnum.addTextChangedListener(new TextWatcher() {
             @Override
@@ -317,7 +318,7 @@ public class GasConsumptionActivity extends Activity {
                 }
                 editString = editable.toString();
 //                PreferenceHelper.write(ac,"shoppay","isCard", false);
-                Log.d("xxs",editString);
+                Log.d("xxs", editString);
                 //延迟800ms，如果不再输入字符，则执行该线程的run方法
                 handler.postDelayed(delayRun, 800);
             }
@@ -339,7 +340,7 @@ public class GasConsumptionActivity extends Activity {
 
                 } else {
                     if (PreferenceHelper.readString(MyApplication.context, "shoppay", "vipdengjiid", "123").equals("123")) {
-                        Toast.makeText(MyApplication.context,PreferenceHelper.readString(MyApplication.context,"shoppay","viptoast","未查询到会员"),Toast.LENGTH_SHORT).show();
+                        Toast.makeText(MyApplication.context, PreferenceHelper.readString(MyApplication.context, "shoppay", "viptoast", "未查询到会员"), Toast.LENGTH_SHORT).show();
                         gasEtXfmoney.setText("");
                     } else {
                         if (moneyrun != null) {
@@ -355,6 +356,7 @@ public class GasConsumptionActivity extends Activity {
             }
         });
     }
+
     /**
      * 延迟线程，看是否还有下一个字符输入
      */
@@ -430,6 +432,7 @@ public class GasConsumptionActivity extends Activity {
         });
 
     }
+
     private void obtainZhehMoney() {
         AsyncHttpClient client = new AsyncHttpClient();
         final PersistentCookieStore myCookieStore = new PersistentCookieStore(MyApplication.context);
@@ -437,7 +440,7 @@ public class GasConsumptionActivity extends Activity {
         RequestParams params = new RequestParams();
         params.put("money", xfmoney);
         params.put("levelid", PreferenceHelper.readString(MyApplication.context, "shoppay", "vipdengjiid", "123"));
-        params.put("memid",   PreferenceHelper.readString(MyApplication.context, "shoppay", "memid", "123"));
+        params.put("memid", PreferenceHelper.readString(MyApplication.context, "shoppay", "memid", "123"));
         client.post(PreferenceHelper.readString(MyApplication.context, "shoppay", "yuming", "123") + "/mobile/app/api/appAPI.ashx?Method=GetOilDiscountMoney", params, new AsyncHttpResponseHandler() {
             @Override
             public void onSuccess(int statusCode, Header[] headers, byte[] responseBody) {
@@ -480,6 +483,7 @@ public class GasConsumptionActivity extends Activity {
             }
         });
     }
+
     @OnClick({R.id.rl_left, R.id.gas_rl_jiesuan})
     public void onViewClicked(View view) {
         switch (view.getId()) {
@@ -501,11 +505,11 @@ public class GasConsumptionActivity extends Activity {
                 } else if (gasTvZhmoney.getText().toString().equals("")) {
                     Toast.makeText(MyApplication.context, "请重新输入消费金额，获取折后金额",
                             Toast.LENGTH_SHORT).show();
-                }else if(gasTvPrice.getText().toString()==null||gasTvPrice.getText().toString().equals("")){
+                } else if (gasTvPrice.getText().toString() == null || gasTvPrice.getText().toString().equals("")) {
                     Toast.makeText(MyApplication.context, "请重新进入该界面，获取天然气单价",
                             Toast.LENGTH_SHORT).show();
 
-                }else if(isFcard){
+                } else if (isFcard) {
                     Toast.makeText(MyApplication.context, "此卡为父卡，不能消费",
                             Toast.LENGTH_SHORT).show();
 
@@ -532,7 +536,7 @@ public class GasConsumptionActivity extends Activity {
                                 jiesuan();
                             }
                         }
-                    }else{
+                    } else {
                         Toast.makeText(MyApplication.context, "请检查网络是否可用",
                                 Toast.LENGTH_SHORT).show();
 
@@ -549,46 +553,44 @@ public class GasConsumptionActivity extends Activity {
         client.setCookieStore(myCookieStore);
         RequestParams params = new RequestParams();
 //        params.put("UserAcount", susername);
-        client.post( PreferenceHelper.readString(ac, "shoppay", "yuming", "123") + "/mobile/app/api/appAPI.ashx?Method=GetGasList", params, new AsyncHttpResponseHandler()
-        {
+        client.post(PreferenceHelper.readString(ac, "shoppay", "yuming", "123") + "/mobile/app/api/appAPI.ashx?Method=GetGasList", params, new AsyncHttpResponseHandler() {
             @Override
-            public void onSuccess(int statusCode, Header[] headers, byte[] responseBody)
-            {
+            public void onSuccess(int statusCode, Header[] headers, byte[] responseBody) {
                 try {
-                    Log.d("xxLoginS",new String(responseBody,"UTF-8"));
-                    JSONObject jso=new JSONObject(new String(responseBody,"UTF-8"));
-                    if(jso.getBoolean("success")){
-                        String data=jso.getString("data");
-                        Gson gson=new Gson();
-                        Type listType = new TypeToken<List<GasType>>(){}.getType();
+                    Log.d("xxLoginS", new String(responseBody, "UTF-8"));
+                    JSONObject jso = new JSONObject(new String(responseBody, "UTF-8"));
+                    if (jso.getBoolean("success")) {
+                        String data = jso.getString("data");
+                        Gson gson = new Gson();
+                        Type listType = new TypeToken<List<GasType>>() {
+                        }.getType();
                         list = gson.fromJson(data, listType);
-                        if(type.equals("no")){
-                              gasTvPrice.setText(list.get(0).GasPrice);
-                            dengji=list.get(0);
-                        }else {
+                        if (type.equals("no")) {
+                            gasTvPrice.setText(list.get(0).GasPrice);
+                            dengji = list.get(0);
+                        } else {
                         }
-                    }else{
-                        if(type.equals("no")){
+                    } else {
+                        if (type.equals("no")) {
                             Toast.makeText(ac, jso.getString("msg"), Toast.LENGTH_SHORT).show();
-                        }else {
+                        } else {
                             Toast.makeText(ac, jso.getString("msg"), Toast.LENGTH_SHORT).show();
                         }
                     }
-                }catch (Exception e){
-                    if(type.equals("no")){
+                } catch (Exception e) {
+                    if (type.equals("no")) {
                         Toast.makeText(ac, "获取天然气类型失败，请重新登录", Toast.LENGTH_SHORT).show();
-                    }else {
+                    } else {
                         Toast.makeText(ac, "获取天然气类型失败，请重新登录", Toast.LENGTH_SHORT).show();
                     }
                 }
             }
 
             @Override
-            public void onFailure(int statusCode, Header[] headers, byte[] responseBody, Throwable error)
-            {
-                if(type.equals("no")){
+            public void onFailure(int statusCode, Header[] headers, byte[] responseBody, Throwable error) {
+                if (type.equals("no")) {
                     Toast.makeText(ac, "获取天然气类型失败，请重新登录", Toast.LENGTH_SHORT).show();
-                }else {
+                } else {
                     Toast.makeText(ac, "获取天然气类型失败，请重新登录", Toast.LENGTH_SHORT).show();
                 }
             }
@@ -598,17 +600,25 @@ public class GasConsumptionActivity extends Activity {
     @Override
     public void onResume() {
         super.onResume();
-        new ReadCardOpt(gasEtCardnum);
+        new ReadCardHandler(new InterfaceBack() {
+            @Override
+            public void onResponse(Object response) {
+                PreferenceHelper.write(ac, "shoppay", "isCard", true);
+                gasEtCardnum.setText(response.toString());
+            }
+
+            @Override
+            public void onErrorResponse(Object msg) {
+
+            }
+        });
     }
 
     @Override
     public void onStop() {
-        try
-        {
-            new ReadCardOpt().overReadCard();
-        }
-        catch (RemoteException e)
-        {
+        try {
+            new ReadCardHandler().overReadCard();
+        } catch (RemoteException e) {
             e.printStackTrace();
         }
         super.onStop();
@@ -617,9 +627,6 @@ public class GasConsumptionActivity extends Activity {
             handler.removeCallbacks(delayRun);
         }
     }
-
-
-
 
 
     private void jiesuan() {
@@ -632,16 +639,16 @@ public class GasConsumptionActivity extends Activity {
         params.put("Point", gasTvHasjf.getText().toString());
         params.put("Money", gasEtXfmoney.getText().toString());
         params.put("discountmoney", gasTvZhmoney.getText().toString());
-        if(isMoney){
+        if (isMoney) {
             params.put("bolIsCard", 0);//1：真 0：假
-            params.put("bolIsCash",1);//1：真 0：假
-        }else{
+            params.put("bolIsCash", 1);//1：真 0：假
+        } else {
             params.put("bolIsCard", 1);//1：真 0：假
             params.put("bolIsCash", 0);//1：真 0：假
         }
-        params.put("oilID",dengji.GasID);
+        params.put("oilID", dengji.GasID);
         params.put("oilNum", gasTvNum.getText().toString());//1：真 0：假
-        Log.d("xx",params.toString());
+        Log.d("xx", params.toString());
         client.post(PreferenceHelper.readString(MyApplication.context, "shoppay", "yuming", "123") + "/mobile/app/api/appAPI.ashx?Method=OilExpense", params, new AsyncHttpResponseHandler() {
             @Override
             public void onSuccess(int statusCode, Header[] headers, byte[] responseBody) {
@@ -653,13 +660,13 @@ public class GasConsumptionActivity extends Activity {
                         PreferenceHelper.write(MyApplication.context, "shoppay", "OrderAccount", jso.getJSONObject("data").getString("OrderAccount"));
                         Toast.makeText(MyApplication.context, "结算成功",
                                 Toast.LENGTH_LONG).show();
-                        if(!isMoney) {
+                        if (!isMoney) {
                             if (PreferenceHelper.readBoolean(MyApplication.context, "shoppay", "IsPrint", false)) {
                                 BluetoothUtil.connectBlueTooth(MyApplication.context);
                                 BluetoothUtil.sendData(printReceipt_BlueTooth(), PreferenceHelper.readInt(MyApplication.context, "shoppay", "GoodsExpenesPrintNumber", 1));
                             }
                         }
-                    finish();
+                        finish();
 
                     } else {
                         Toast.makeText(MyApplication.context, jso.getString("msg"),
@@ -673,24 +680,23 @@ public class GasConsumptionActivity extends Activity {
             @Override
             public void onFailure(int statusCode, Header[] headers, byte[] responseBody, Throwable error) {
                 dialog.dismiss();
-                LogUtils.d("xxjiesuanE",error.getMessage());
+                LogUtils.d("xxjiesuanE", error.getMessage());
                 Toast.makeText(MyApplication.context, "结算失败，请重新结算",
                         Toast.LENGTH_SHORT).show();
             }
         });
     }
-    public byte[] printReceipt_BlueTooth()
-    {
-        String danhao = "消费单号:" + PreferenceHelper.readString(MyApplication.context, "shoppay","OrderAccount","");
-        String huiyuankahao = "会员卡号:" + gasEtCardnum.getText().toString();
-        String huiyuanming = "会员名称:" +gasTvVipname.getText().toString();
 
-        try
-        {
+    public byte[] printReceipt_BlueTooth() {
+        String danhao = "消费单号:" + PreferenceHelper.readString(MyApplication.context, "shoppay", "OrderAccount", "");
+        String huiyuankahao = "会员卡号:" + gasEtCardnum.getText().toString();
+        String huiyuanming = "会员名称:" + gasTvVipname.getText().toString();
+
+        try {
             byte[] next2Line = ESCUtil.nextLine(2);
             //            byte[] title = titleset.getBytes("gb2312");
-            byte[] title = PreferenceHelper.readString(MyApplication.context,"shoppay","PrintTitle","").getBytes("gb2312");
-            byte[] bottom = PreferenceHelper.readString(MyApplication.context,"shoppay","PrintFootNote","").getBytes("gb2312");
+            byte[] title = PreferenceHelper.readString(MyApplication.context, "shoppay", "PrintTitle", "").getBytes("gb2312");
+            byte[] bottom = PreferenceHelper.readString(MyApplication.context, "shoppay", "PrintFootNote", "").getBytes("gb2312");
             byte[] tickname = "天然气消费小票".getBytes("gb2312");
             byte[] ordernum = danhao.getBytes("gb2312");
             byte[] vipcardnum = huiyuankahao.getBytes("gb2312");
@@ -715,59 +721,58 @@ public class GasConsumptionActivity extends Activity {
             byte[] breakPartial = ESCUtil.feedPaperCutPartial();
             byte[][] mytitle = {nextLine, center, boldOn, title, boldOff, next2Line, left, tickname, nextLine, left, ordernum, nextLine, left,
                     vipcardnum, nextLine,
-                    left, vipname,nextLine,xiahuaxian};
+                    left, vipname, nextLine, xiahuaxian};
 
-            byte[] headerBytes =ESCUtil. byteMerger(mytitle);
+            byte[] headerBytes = ESCUtil.byteMerger(mytitle);
             List<byte[]> bytesList = new ArrayList<>();
             bytesList.add(headerBytes);
             //商品头
-            byte[] xfmoney =( "消费金额:" +StringUtil.twoNum(gasEtXfmoney.getText().toString())).getBytes("gb2312");
-            byte[] hasjifen =( "获得积分:" +gasTvHasjf.getText().toString()).getBytes("gb2312");
-            byte[][] mticket1 = {nextLine, left, xfmoney,nextLine,left,hasjifen};
+            byte[] xfmoney = ("消费金额:" + StringUtil.twoNum(gasEtXfmoney.getText().toString())).getBytes("gb2312");
+            byte[] hasjifen = ("获得积分:" + gasTvHasjf.getText().toString()).getBytes("gb2312");
+            byte[][] mticket1 = {nextLine, left, xfmoney, nextLine, left, hasjifen};
             bytesList.add(ESCUtil.byteMerger(mticket1));
 
 
-            byte[][] mtickets = {nextLine,xiahuaxian};
+            byte[][] mtickets = {nextLine, xiahuaxian};
             bytesList.add(ESCUtil.byteMerger(mtickets));
 
-            byte[] yfmoney =( "应付金额:" +StringUtil.twoNum(gasTvZhmoney.getText().toString())).getBytes("gb2312");
-            double xx=Double.parseDouble(gasEtXfmoney.getText().toString());
-            double zh=Double.parseDouble(gasTvZhmoney.getText().toString());
-            Log.d("xxx",xx+";"+zh);
-                byte[] jinshengmoney = ("节省金额:" + StringUtil.twoNum(Double.toString(CommonUtils.del(xx, zh)))).getBytes("gb2312");
+            byte[] yfmoney = ("应付金额:" + StringUtil.twoNum(gasTvZhmoney.getText().toString())).getBytes("gb2312");
+            double xx = Double.parseDouble(gasEtXfmoney.getText().toString());
+            double zh = Double.parseDouble(gasTvZhmoney.getText().toString());
+            Log.d("xxx", xx + ";" + zh);
+            byte[] jinshengmoney = ("节省金额:" + StringUtil.twoNum(Double.toString(CommonUtils.del(xx, zh)))).getBytes("gb2312");
 
-                byte[][] mticketsn = {nextLine, left, yfmoney, nextLine, left, jinshengmoney};
-                bytesList.add(ESCUtil.byteMerger(mticketsn));
-            if(isMoney){
-                byte[] moneys=( "现金支付:" +StringUtil.twoNum(gasTvZhmoney.getText().toString())).getBytes("gb2312");
-                byte[][] mticketsm= {nextLine,left,moneys};
+            byte[][] mticketsn = {nextLine, left, yfmoney, nextLine, left, jinshengmoney};
+            bytesList.add(ESCUtil.byteMerger(mticketsn));
+            if (isMoney) {
+                byte[] moneys = ("现金支付:" + StringUtil.twoNum(gasTvZhmoney.getText().toString())).getBytes("gb2312");
+                byte[][] mticketsm = {nextLine, left, moneys};
                 bytesList.add(ESCUtil.byteMerger(mticketsm));
-            }
-            else{
-                byte[] yue=( "余额支付:" +StringUtil.twoNum(gasTvZhmoney.getText().toString())).getBytes("gb2312");
-                byte[][] mticketyue= {nextLine,left,yue};
+            } else {
+                byte[] yue = ("余额支付:" + StringUtil.twoNum(gasTvZhmoney.getText().toString())).getBytes("gb2312");
+                byte[][] mticketyue = {nextLine, left, yue};
                 bytesList.add(ESCUtil.byteMerger(mticketyue));
             }
             double syjf = Double.parseDouble(gasTvVipjifen.getText().toString()) + Double.parseDouble(gasTvHasjf.getText().toString());
 
-            byte[] syjinfen=( "剩余积分:" +(int)syjf).getBytes("gb2312");
-            byte[][] mticketsyjf= {nextLine,left,syjinfen};
+            byte[] syjinfen = ("剩余积分:" + (int) syjf).getBytes("gb2312");
+            byte[][] mticketsyjf = {nextLine, left, syjinfen};
             bytesList.add(ESCUtil.byteMerger(mticketsyjf));
-            double yuemoney=0;
-            if(isMoney){
-            }else{
-                yuemoney=Double.parseDouble(gasTvZhmoney.getText().toString());
+            double yuemoney = 0;
+            if (isMoney) {
+            } else {
+                yuemoney = Double.parseDouble(gasTvZhmoney.getText().toString());
             }
-            if(!isMoney) {
-                double sy = CommonUtils.del(Double.parseDouble(PreferenceHelper.readString(MyApplication.context, "shoppay", "MemMoney", "0")) , yuemoney);
-                byte[] shengyu = ("卡内余额:" + StringUtil.twoNum(sy+"")).getBytes("gb2312");
+            if (!isMoney) {
+                double sy = CommonUtils.del(Double.parseDouble(PreferenceHelper.readString(MyApplication.context, "shoppay", "MemMoney", "0")), yuemoney);
+                byte[] shengyu = ("卡内余额:" + StringUtil.twoNum(sy + "")).getBytes("gb2312");
                 byte[][] mticketsy = {nextLine, left, shengyu};
                 bytesList.add(ESCUtil.byteMerger(mticketsy));
             }
-            byte[] ha=( "操作人员:"+PreferenceHelper.readString(MyApplication.context
-                    ,"shoppay","UserName","")).trim().getBytes("gb2312");
-            byte[] time=( "消费时间:"+getStringDate()).trim().getBytes("gb2312");
-            byte[] qianming=( "客户签名:").getBytes("gb2312");
+            byte[] ha = ("操作人员:" + PreferenceHelper.readString(MyApplication.context
+                    , "shoppay", "UserName", "")).trim().getBytes("gb2312");
+            byte[] time = ("消费时间:" + getStringDate()).trim().getBytes("gb2312");
+            byte[] qianming = ("客户签名:").getBytes("gb2312");
 
             byte[][] footerBytes = {nextLine, left, ha, nextLine, left, time, nextLine, left, qianming, nextLine, left,
                     nextLine, left, nextLine, left, bottom, next2Line, next4Line, breakPartial};
@@ -777,14 +782,13 @@ public class GasConsumptionActivity extends Activity {
 
             //            bluetoothUtil.send(MergeLinearArraysUtil.mergeLinearArrays(bytesList));
 
-        }
-        catch (UnsupportedEncodingException e)
-        {
+        } catch (UnsupportedEncodingException e) {
             e.printStackTrace();
-            Log.d("xx","UnsupportedEncodingException");
+            Log.d("xx", "UnsupportedEncodingException");
         }
         return null;
     }
+
     public static String getStringDate() {
         Date currentTime = new Date();
         SimpleDateFormat formatter = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
@@ -792,7 +796,7 @@ public class GasConsumptionActivity extends Activity {
         return dateString;
     }
 
-    View.OnKeyListener onKey=new View.OnKeyListener() {
+    View.OnKeyListener onKey = new View.OnKeyListener() {
 
         @Override
 
@@ -800,13 +804,13 @@ public class GasConsumptionActivity extends Activity {
 
 // TODO Auto-generated method stub
 
-            if(keyCode == KeyEvent.KEYCODE_ENTER){
+            if (keyCode == KeyEvent.KEYCODE_ENTER) {
 
-                InputMethodManager imm = (InputMethodManager)v.getContext().getSystemService(Context.INPUT_METHOD_SERVICE);
+                InputMethodManager imm = (InputMethodManager) v.getContext().getSystemService(Context.INPUT_METHOD_SERVICE);
 
-                if(imm.isActive()){
+                if (imm.isActive()) {
 
-                    imm.hideSoftInputFromWindow(v.getApplicationWindowToken(), 0 );
+                    imm.hideSoftInputFromWindow(v.getApplicationWindowToken(), 0);
 
                 }
 
